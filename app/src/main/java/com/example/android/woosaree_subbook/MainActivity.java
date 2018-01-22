@@ -22,41 +22,34 @@ import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
-    final Context context = this;
-
     // ArrayList for Subscriptions
     private ArrayList<Subscription> subCount = new ArrayList<Subscription>();
-
-    // Custom Subscription Adapter
     private SubscriptionAdapter subscriptionAdapter;
-
+    private ListView listView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ListView listView = (ListView) findViewById(R.id.ListView_Counter);
+        listView = (ListView) findViewById(R.id.ListView_Counter);
 
         FloatingActionButton floatingButton = (FloatingActionButton) findViewById(R.id.floatingActionButton);
         floatingButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Log.i("test","test");
+            public void onClick(View v) {
 
-                // get prompts.xml view
-                LayoutInflater li = LayoutInflater.from(context);
-                View eventView = li.inflate(R.layout.event_view, null);
+                View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.event_view, null);
 
                 final EditText editName = (EditText) view.findViewById(R.id.edit_sub_name);
                 final EditText editDate = (EditText) view.findViewById(R.id.edit_sub_date);
                 final EditText editCharge = (EditText) view.findViewById(R.id.edit_sub_charge);
                 final EditText editComment = (EditText) view.findViewById(R.id.edit_sub_comment);
 
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
 
                 // set prompts.xml to alertDialog builder
-                alertDialogBuilder.setView(eventView);
+                alertDialogBuilder.setView(view);
 
                 // create alert dialog
                 AlertDialog alertDialog = alertDialogBuilder.create();
@@ -73,10 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
                         Subscription mySub = new Subscription(name, date, charge, comment);
                         subCount.add(mySub);
-                        // Create the adapter to convert the array to views
-                        SubscriptionAdapter adapter = new SubscriptionAdapter(this, subCount);
-                        // Attach the adapter to a ListView
-                        listView.setAdapter(adapter);
+                        subscriptionAdapter.notifyDataSetChanged();
                     }
                 });
                 alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -87,5 +77,14 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // Create the adapter to convert the array to views
+        subscriptionAdapter = new SubscriptionAdapter(this, subCount);
+        // Attach the adapter to a ListView
+        listView.setAdapter(subscriptionAdapter);
+
     }
 }
