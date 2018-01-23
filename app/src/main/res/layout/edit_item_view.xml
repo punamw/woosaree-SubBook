@@ -11,12 +11,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:padding="16dp">
 
         <!-- Label -->
         <TextView
             android:text="Subscription Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:paddingRight = "8dp"/>
 
         <!-- Name field -->
@@ -31,11 +33,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:padding ="16dp">
 
         <TextView
             android:text = "Date Started"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:paddingRight = "8dp"/>
 
         <!-- Date field -->
@@ -50,11 +54,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:padding ="16dp">
 
         <TextView
             android:text = "Monthly Charge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:paddingRight = "8dp"/>
 
         <!-- Monthly Charge field -->
@@ -69,11 +75,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:padding ="16dp">
 
         <TextView
             android:text = "Comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:paddingRight = "8dp"/>
 
         <!-- Comment field -->
