@@ -127,15 +127,15 @@ public class MainActivity extends AppCompatActivity {
                 builder.setPositiveButton("Edit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String Subscription = editName.getText().toString();
+                        String Name = editName.getText().toString();
                         String Date = editDate.getText().toString();
                         String Charge = editCharge.getText().toString();
                         String Comment = editComment.getText().toString();
 
-                        currentSubscription.setSubName(Subscription);
-                        currentSubscription.setSubDate(Subscription);
-                        currentSubscription.setSubCharge(Subscription);
-                        currentSubscription.setSubComment(Subscription);
+                        currentSubscription.setSubName(Name);
+                        currentSubscription.setSubDate(Date);
+                        currentSubscription.setSubCharge(Charge);
+                        currentSubscription.setSubComment(Comment);
 
                         subscriptionAdapter.notifyDataSetChanged();
                     }
@@ -146,4 +146,6 @@ public class MainActivity extends AppCompatActivity {
                 AlertDialog alert = builder.create();
                 alert.show();
             }});
-    }}
+    }
+    
+}
