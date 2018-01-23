@@ -28,6 +28,7 @@
         android:paddingLeft="8dp">
 
         <LinearLayout
+            android:id="@+id/linear"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -46,24 +47,25 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="?attr/actionMenuTextColor"
-                android:textSize="10sp" />
+                android:textSize="14sp" />
 
-            <TextView
-                android:id="@+id/sub_charge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="8dp"
-                android:textSize="10sp" />
 
             <TextView
                 android:id="@+id/sub_comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="8dp"
-                android:textSize="8sp" />
+                android:textSize="14sp" />
 
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/sub_charge"
+            android:layout_toRightOf ="@+id/linear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:textSize="16sp" />
     </LinearLayout>
 
 </LinearLayout>
