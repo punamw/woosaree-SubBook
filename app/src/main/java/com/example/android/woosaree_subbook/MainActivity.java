@@ -70,8 +70,24 @@ public class MainActivity extends AppCompatActivity {
                             Subscription mySub = new Subscription(name, date, charge, comment);
                             subscriptionCounters.add(mySub);
                             subscriptionAdapter.notifyDataSetChanged();
+
+                            float subscriptionTotal = 0;
+                            for (int i = 0; i < subscriptionCounters.size(); i ++){
+                                float charge1 = Float.parseFloat(subscriptionCounters.get(i).getSubCharge());
+                                subscriptionTotal = subscriptionTotal + charge1;
+                            }
+                            // globally
+                            TextView chargeTextView = (TextView)findViewById(R.id.totalCounters);
+
+                            //in your OnCreate() method
+                            String subTotal = "Total Subscriptions: $" + Float.toString(subscriptionTotal);
+                            chargeTextView.setText(subTotal);
+
+
+
+
+
                         }
-                        // Show error toast on invalid entry
                         else {
                             Toast.makeText(getApplicationContext(), "Make sure Name and Count are not blank", Toast.LENGTH_SHORT).show();
                         }
@@ -141,6 +157,7 @@ public class MainActivity extends AppCompatActivity {
                             String Name = editName.getText().toString();
                             String Date = editDate.getText().toString();
                             String Charge = editCharge.getText().toString();
+                            //int charge1 = Integer.parseInt(Charge);
                             String Comment = editComment.getText().toString();
 
                             currentSubscription.setSubName(Name);
