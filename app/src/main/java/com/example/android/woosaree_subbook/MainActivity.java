@@ -55,19 +55,27 @@ public class MainActivity extends AppCompatActivity {
                 // create alert dialog
                 AlertDialog alertDialog = alertDialogBuilder.create();
 
-                // show it
-                //alertDialog.show();
+                alertDialogBuilder.setPositiveButton("Add",  new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int which){
 
-                alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        String name = editName.getText().toString();
-                        String date = editDate.getText().toString();
-                        String charge = editCharge.getText().toString();
-                        String comment = editComment.getText().toString();
+                        //check that name,date and charge are non empty fields
+                        if (!(editName.getText().toString().equals("")) && !(editDate.getText().toString().equals("")) && !(editCharge.getText().toString().equals("")) ){
 
-                        Subscription mySub = new Subscription(name, date, charge, comment);
-                        subscriptionCounters.add(mySub);
-                        subscriptionAdapter.notifyDataSetChanged();
+                            String name = editName.getText().toString();
+                            String date = editDate.getText().toString();
+                            String charge = editCharge.getText().toString();
+                            String comment = editComment.getText().toString();
+
+                            Subscription mySub = new Subscription(name, date, charge, comment);
+                            subscriptionCounters.add(mySub);
+                            subscriptionAdapter.notifyDataSetChanged();
+                        }
+                        // Show error toast on invalid entry
+                        else {
+                            Toast.makeText(getApplicationContext(), "Make sure Name and Count are not blank", Toast.LENGTH_SHORT).show();
+                        }
+
                     }
                 });
                 alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -79,6 +87,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -127,17 +137,22 @@ public class MainActivity extends AppCompatActivity {
                 builder.setPositiveButton("Edit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String Name = editName.getText().toString();
-                        String Date = editDate.getText().toString();
-                        String Charge = editCharge.getText().toString();
-                        String Comment = editComment.getText().toString();
+                        if (!(editName.getText().toString().equals("")) && !(editDate.getText().toString().equals("")) && !(editCharge.getText().toString().equals(""))) {
+                            String Name = editName.getText().toString();
+                            String Date = editDate.getText().toString();
+                            String Charge = editCharge.getText().toString();
+                            String Comment = editComment.getText().toString();
 
-                        currentSubscription.setSubName(Name);
-                        currentSubscription.setSubDate(Date);
-                        currentSubscription.setSubCharge(Charge);
-                        currentSubscription.setSubComment(Comment);
+                            currentSubscription.setSubName(Name);
+                            currentSubscription.setSubDate(Date);
+                            currentSubscription.setSubCharge(Charge);
+                            currentSubscription.setSubComment(Comment);
 
-                        subscriptionAdapter.notifyDataSetChanged();
+                            subscriptionAdapter.notifyDataSetChanged();
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(), "Make sure Name, Date and Charge are not blank", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
                 builder.setNegativeButton("Cancel", null);
