@@ -83,10 +83,6 @@ public class MainActivity extends AppCompatActivity {
                             String subTotal = "Total Subscriptions: $" + Float.toString(subscriptionTotal);
                             chargeTextView.setText(subTotal);
 
-
-
-
-
                         }
                         else {
                             Toast.makeText(getApplicationContext(), "Make sure Name and Count are not blank", Toast.LENGTH_SHORT).show();
@@ -166,6 +162,18 @@ public class MainActivity extends AppCompatActivity {
                             currentSubscription.setSubComment(Comment);
 
                             subscriptionAdapter.notifyDataSetChanged();
+
+                            float subscriptionTotal = 0;
+                            for (int i = 0; i < subscriptionCounters.size(); i ++){
+                                float charge1 = Float.parseFloat(subscriptionCounters.get(i).getSubCharge());
+                                subscriptionTotal = subscriptionTotal + charge1;
+                            }
+                            // globally
+                            TextView chargeTextView = (TextView)findViewById(R.id.totalCounters);
+
+                            //in your OnCreate() method
+                            String subTotal = "Total Subscriptions: $" + Float.toString(subscriptionTotal);
+                            chargeTextView.setText(subTotal);
                         }
                         else {
                             Toast.makeText(getApplicationContext(), "Make sure Name, Date and Charge are not blank", Toast.LENGTH_SHORT).show();
