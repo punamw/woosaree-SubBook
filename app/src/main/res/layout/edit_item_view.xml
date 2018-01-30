@@ -93,7 +93,7 @@
             />
     </LinearLayout>
 
-    <!-- Submit field -->
+    <!-- Delete field -->
     <Button
         android:id="@+id/edit_delete"
         android:layout_width="match_parent"

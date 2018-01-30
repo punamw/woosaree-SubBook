@@ -18,10 +18,24 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
+
+    // Filename
+    private static final String FILENAME = "file.sav";
 
     // ArrayList for Subscriptions
     private ArrayList<Subscription> subscriptionCounters = new ArrayList<Subscription>();
@@ -83,6 +97,9 @@ public class MainActivity extends AppCompatActivity {
                             String subTotal = "Total Subscriptions: $" + Float.toString(subscriptionTotal);
                             chargeTextView.setText(subTotal);
 
+                            saveInFile();
+                            dialog.dismiss();
+
                         }
                         else {
                             Toast.makeText(getApplicationContext(), "Make sure Name and Count are not blank", Toast.LENGTH_SHORT).show();
@@ -104,6 +121,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        loadFromFile();
+
         // Create the adapter to convert the array to views
         subscriptionAdapter = new SubscriptionAdapter(this, subscriptionCounters);
         // Attach the adapter to a ListView
@@ -130,12 +149,24 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         subscriptionCounters.remove(pos);
+                        saveInFile();
                         Intent eventIntent = new Intent(MainActivity.this, MainActivity.class);
+                        //Log.i("ok",  subTotal);
                         subscriptionAdapter.notifyDataSetChanged();
-                        startActivity(eventIntent);
+                        //find the total charge of subscriptions
+                        float subscriptionTotal = 0;
+                        for (int i = 0; i < subscriptionCounters.size(); i ++){
+                            float charge1 = Float.parseFloat(subscriptionCounters.get(i).getSubCharge());
+                            subscriptionTotal = subscriptionTotal + charge1;
+                        }
+                        final TextView chargeTextView = (TextView)findViewById(R.id.totalCounters);
 
+                        String subTotal = "Total Subscriptions: $" + Float.toString(subscriptionTotal);
+                        chargeTextView.setText(subTotal);
+                        startActivity(eventIntent);
                     }
                 });
+
 
                 editName.setText(currentSubscription.getSubName().toString(), TextView.BufferType.EDITABLE);
                 editDate.setText(currentSubscription.getSubDate().toString(), TextView.BufferType.EDITABLE);
@@ -153,7 +184,6 @@ public class MainActivity extends AppCompatActivity {
                             String Name = editName.getText().toString();
                             String Date = editDate.getText().toString();
                             String Charge = editCharge.getText().toString();
-                            //int charge1 = Integer.parseInt(Charge);
                             String Comment = editComment.getText().toString();
 
                             currentSubscription.setSubName(Name);
@@ -174,6 +204,9 @@ public class MainActivity extends AppCompatActivity {
                             //in your OnCreate() method
                             String subTotal = "Total Subscriptions: $" + Float.toString(subscriptionTotal);
                             chargeTextView.setText(subTotal);
+
+                            saveInFile();
+                            subscriptionAdapter.notifyDataSetChanged();
                         }
                         else {
                             Toast.makeText(getApplicationContext(), "Make sure Name, Date and Charge are not blank", Toast.LENGTH_SHORT).show();
@@ -187,5 +220,55 @@ public class MainActivity extends AppCompatActivity {
                 alert.show();
             }});
     }
-    
+
+
+    // Save data when activity is paused
+    @Override
+    public void onPause() {
+        super.onPause();
+        saveInFile();
+    }
+
+    /**
+     * Load data from file
+     */
+    private void loadFromFile() {
+        try {
+            FileInputStream fis = openFileInput(FILENAME);
+            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+
+            Gson gson = new Gson();
+            Type listType = new TypeToken<ArrayList<Subscription>>() {}.getType();
+            subscriptionCounters = gson.fromJson(in, listType);
+
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            subscriptionCounters = new ArrayList<Subscription>();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Save the data in file
+     */
+    private void saveInFile() {
+        try {
+            FileOutputStream fos = openFileOutput(FILENAME,
+                    Context.MODE_PRIVATE);
+            OutputStreamWriter writer = new OutputStreamWriter(fos);
+            Gson gson = new Gson();
+            gson.toJson(subscriptionCounters, writer);
+            writer.flush();
+
+            fos.close();
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            throw new RuntimeException(e);
+        }
+    }
 }
