@@ -128,6 +128,19 @@ public class MainActivity extends AppCompatActivity {
         // Attach the adapter to a ListView
         listView.setAdapter(subscriptionAdapter);
 
+        //find the total charge of subscriptions
+        float subscriptionTotal = 0;
+        for (int i = 0; i < subscriptionCounters.size(); i ++){
+            float charge1 = Float.parseFloat(subscriptionCounters.get(i).getSubCharge());
+            subscriptionTotal = subscriptionTotal + charge1;
+        }
+        final TextView chargeTextView = (TextView)findViewById(R.id.totalCounters);
+
+        String subTotal = "Total Subscriptions: $" + Float.toString(subscriptionTotal);
+        chargeTextView.setText(subTotal);
+
+
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -150,19 +163,8 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         subscriptionCounters.remove(pos);
                         saveInFile();
-                        Intent eventIntent = new Intent(MainActivity.this, MainActivity.class);
-                        //Log.i("ok",  subTotal);
                         subscriptionAdapter.notifyDataSetChanged();
-                        //find the total charge of subscriptions
-                        float subscriptionTotal = 0;
-                        for (int i = 0; i < subscriptionCounters.size(); i ++){
-                            float charge1 = Float.parseFloat(subscriptionCounters.get(i).getSubCharge());
-                            subscriptionTotal = subscriptionTotal + charge1;
-                        }
-                        final TextView chargeTextView = (TextView)findViewById(R.id.totalCounters);
-
-                        String subTotal = "Total Subscriptions: $" + Float.toString(subscriptionTotal);
-                        chargeTextView.setText(subTotal);
+                        Intent eventIntent = new Intent(MainActivity.this, MainActivity.class);
                         startActivity(eventIntent);
                     }
                 });
