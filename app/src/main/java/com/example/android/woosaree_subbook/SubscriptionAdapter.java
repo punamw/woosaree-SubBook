@@ -1,3 +1,9 @@
+
+/**SubscriptionAdapter
+ *
+ * Copyright (c) Feb 2, 2018 Punam Woosaree- All Rights Reserved
+ */
+
 package com.example.android.woosaree_subbook;
 
 import android.app.Activity;
