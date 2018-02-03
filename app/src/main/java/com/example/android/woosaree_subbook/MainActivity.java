@@ -39,7 +39,11 @@ public class MainActivity extends AppCompatActivity {
 
     // ArrayList for Subscriptions
     private ArrayList<Subscription> subscriptionCounters = new ArrayList<Subscription>();
+
+    //Create Adapter
     private SubscriptionAdapter subscriptionAdapter;
+
+    //Create the listview to be populated
     private ListView listView;
 
 
@@ -49,11 +53,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         listView = (ListView) findViewById(R.id.ListView_Counter);
 
+        //Executes when user presses add button to add subscription
         FloatingActionButton floatingButton = (FloatingActionButton) findViewById(R.id.floatingActionButton);
         floatingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                //inflate the edit_view to gather information
                 View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.event_view, null);
 
                 final EditText editName = (EditText) view.findViewById(R.id.edit_sub_name);
@@ -73,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which){
 
-                        //check that name,date and charge are non empty fields
+                        //execute if name,date and charge are non empty fields
                         if (!(editName.getText().toString().equals("")) && !(editDate.getText().toString().equals("")) && !(editCharge.getText().toString().equals("")) ){
 
                             String name = editName.getText().toString();
@@ -85,28 +91,30 @@ public class MainActivity extends AppCompatActivity {
                             subscriptionCounters.add(mySub);
                             subscriptionAdapter.notifyDataSetChanged();
 
+                            //used to calculate the total charge of all the subscriptions
                             float subscriptionTotal = 0;
                             for (int i = 0; i < subscriptionCounters.size(); i ++){
                                 float charge1 = Float.parseFloat(subscriptionCounters.get(i).getSubCharge());
                                 subscriptionTotal = subscriptionTotal + charge1;
                             }
-                            // globally
+                            //set the total charge of all subscriptions
                             TextView chargeTextView = (TextView)findViewById(R.id.totalCounters);
-
-                            //in your OnCreate() method
                             String subTotal = "Total Subscriptions: $" + Float.toString(subscriptionTotal);
                             chargeTextView.setText(subTotal);
 
+                            //save to file and exit dialog
                             saveInFile();
                             dialog.dismiss();
 
                         }
                         else {
+                            //execute if either name,date or charge are empty fields
                             Toast.makeText(getApplicationContext(), "Make sure Name and Count are not blank", Toast.LENGTH_SHORT).show();
                         }
 
                     }
                 });
+                //set up a cancel button
                 alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                     }
@@ -134,13 +142,14 @@ public class MainActivity extends AppCompatActivity {
             float charge1 = Float.parseFloat(subscriptionCounters.get(i).getSubCharge());
             subscriptionTotal = subscriptionTotal + charge1;
         }
+        //set the total charge of all subscriptions
         final TextView chargeTextView = (TextView)findViewById(R.id.totalCounters);
-
         String subTotal = "Total Subscriptions: $" + Float.toString(subscriptionTotal);
         chargeTextView.setText(subTotal);
 
 
-
+        //create listener for each item in list view
+        //execute if clicked
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -148,6 +157,7 @@ public class MainActivity extends AppCompatActivity {
                 // Find the current subscription that was clicked on
                 final Subscription currentSubscription = subscriptionAdapter.getItem(position);
 
+                //inflate the edit_item_view to allow user to edit information
                 View v = LayoutInflater.from(MainActivity.this).inflate(R.layout.edit_item_view, null);
 
                 final EditText editName = (EditText) v.findViewById(R.id.edit_sub_name);
@@ -161,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
                 deleteButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        subscriptionCounters.remove(pos);
+                        subscriptionCounters.remove(pos);   //remove current Subscription from list of subscriptions
                         saveInFile();
                         subscriptionAdapter.notifyDataSetChanged();
                         Intent eventIntent = new Intent(MainActivity.this, MainActivity.class);
@@ -169,12 +179,13 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-
+                //create editable text views
                 editName.setText(currentSubscription.getSubName().toString(), TextView.BufferType.EDITABLE);
                 editDate.setText(currentSubscription.getSubDate().toString(), TextView.BufferType.EDITABLE);
                 editCharge.setText(currentSubscription.getSubCharge().toString(), TextView.BufferType.EDITABLE);
                 editComment.setText(currentSubscription.getSubComment().toString(), TextView.BufferType.EDITABLE);
 
+                //create dialog to allow user to edit subscription
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setMessage("Edit Subscription");
                 builder.setView(v);
@@ -182,12 +193,15 @@ public class MainActivity extends AppCompatActivity {
                 builder.setPositiveButton("Edit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        //executes if name, charge and date are not empty fields
                         if (!(editName.getText().toString().equals("")) && !(editDate.getText().toString().equals("")) && !(editCharge.getText().toString().equals(""))) {
+                            //set name,date,charge and comment to the new values
                             String Name = editName.getText().toString();
                             String Date = editDate.getText().toString();
                             String Charge = editCharge.getText().toString();
                             String Comment = editComment.getText().toString();
 
+                            //update the current subscription to the new values
                             currentSubscription.setSubName(Name);
                             currentSubscription.setSubDate(Date);
                             currentSubscription.setSubCharge(Charge);
@@ -195,15 +209,14 @@ public class MainActivity extends AppCompatActivity {
 
                             subscriptionAdapter.notifyDataSetChanged();
 
+                            //find the total charge of subscriptions
                             float subscriptionTotal = 0;
                             for (int i = 0; i < subscriptionCounters.size(); i ++){
                                 float charge1 = Float.parseFloat(subscriptionCounters.get(i).getSubCharge());
                                 subscriptionTotal = subscriptionTotal + charge1;
                             }
-                            // globally
+                            // set the total charge of all subscriptions
                             TextView chargeTextView = (TextView)findViewById(R.id.totalCounters);
-
-                            
                             String subTotal = "Total Subscriptions: $" + Float.toString(subscriptionTotal);
                             chargeTextView.setText(subTotal);
 
@@ -211,10 +224,12 @@ public class MainActivity extends AppCompatActivity {
                             subscriptionAdapter.notifyDataSetChanged();
                         }
                         else {
+                            //execute if either the name, date or charge is left blank
                             Toast.makeText(getApplicationContext(), "Make sure Name, Date and Charge are not blank", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
+                //Sets up cancel option for user
                 builder.setNegativeButton("Cancel", null);
                 builder.setCancelable(false);
 

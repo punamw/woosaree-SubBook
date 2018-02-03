@@ -18,7 +18,7 @@ public class Subscription {
     // Description of Comment
     private String mSubComment;
 
-
+    //Subscription fields
     public Subscription(String vName, String vDate, String vCharge, String vComment) {
         mSubName = vName;
         mSubDate = vDate;
@@ -27,8 +27,8 @@ public class Subscription {
 
     }
 
-    /*
-     * Get com.example.android.woosaree_subbook.Subscription Name
+    /**
+     * Get subscription name
      * @return mSubName
      */
     public String getSubName() {
@@ -37,7 +37,7 @@ public class Subscription {
 
 
     /**
-     * Get counter date
+     * Get subscription date
      * @return mSubDate
      */
     public String getSubDate() {
@@ -45,7 +45,7 @@ public class Subscription {
     }
 
     /**
-     * Get counter charge
+     * Get subscription charge
      * @return mSubCharge
      */
     public String getSubCharge() {
@@ -53,7 +53,7 @@ public class Subscription {
     }
 
     /**
-     * Get counter comment
+     * Get subscription comment
      * @return mSubComment
      */
     public String getSubComment() {
@@ -70,7 +70,7 @@ public class Subscription {
     }
 
     /**
-     * Set the date of the counter
+     * Set the date of the subscription
      * @param date
      */
     public void setSubDate(String date) {
@@ -79,7 +79,7 @@ public class Subscription {
     }
 
     /**
-     * Set the charge of the counter
+     * Set the charge of the subscription
      * @param charge
      */
     public void setSubCharge(String charge) {
@@ -87,7 +87,7 @@ public class Subscription {
     }
 
     /**
-     * Set the comment of the counter
+     * Set the comment of the subscription
      * @param comment
      */
     public void setSubComment(String comment) {
