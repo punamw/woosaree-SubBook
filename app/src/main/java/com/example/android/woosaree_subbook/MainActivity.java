@@ -203,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
                             // globally
                             TextView chargeTextView = (TextView)findViewById(R.id.totalCounters);
 
-                            //in your OnCreate() method
+                            
                             String subTotal = "Total Subscriptions: $" + Float.toString(subscriptionTotal);
                             chargeTextView.setText(subTotal);
 
