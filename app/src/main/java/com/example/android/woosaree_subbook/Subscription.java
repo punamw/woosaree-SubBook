@@ -24,7 +24,7 @@ public class Subscription {
     // Description of Comment
     private String mSubComment;
 
-    //Subscription fields
+    //Creates a subscription object
     public Subscription(String vName, String vDate, String vCharge, String vComment) {
         mSubName = vName;
         mSubDate = vDate;
